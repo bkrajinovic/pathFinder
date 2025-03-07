@@ -1,39 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { MAPS } from './constants';
+
+import { findPath } from 'src/helpers/pathFinder';
+import { handleParseMap } from 'src/helpers/mapParser';
+import { MAPS } from './constants/maps';
 import Map from './Map';
 
 import './App.css';
 
 type MapKeys = keyof typeof MAPS;
+type MapArray = string[][];
 
 const MapTraversal: React.FC = () => {
+  const [error] = useState<string | null>(null);
+
   const [selectedMapKey, setSelectedMapKey] = useState<MapKeys>('BASIC_EXAMPLE');
-  const [map2D, setMap2D] = useState<string[][]>(MAPS.BASIC_EXAMPLE);
+  const [map2D, setMap2D] = useState<MapArray>(MAPS.BASIC_EXAMPLE);
+
 
   useEffect(() => {
-    handleParseMap();
+    setMap2D(handleParseMap(MAPS[selectedMapKey]));
   }, [selectedMapKey]);
-
-  const handleParseMap = () => {
-    const selectedMap = MAPS[selectedMapKey];
-
-    // Find the length of the longest array
-    const maxLength = selectedMap.reduce((max, row) => Math.max(max, row.length), 0);
-
-    // Ensure every array is the same length
-    const normalizedMap = selectedMap.map(row => {
-      while (row.length < maxLength) {
-        row.push(' ');
-      }
-      return row;
-    });
-
-    setMap2D(normalizedMap);
-  };
 
   return (
     <div className='App'>
       <h1>Map Traversal</h1>
+
       <select onChange={(e) => setSelectedMapKey(e.target.value as MapKeys)} value={selectedMapKey}>
         {Object.keys(MAPS).map(key => (
           <option key={key} value={key}>
@@ -41,6 +32,13 @@ const MapTraversal: React.FC = () => {
           </option>
         ))}
       </select>
+
+      <button onClick={() => findPath(map2D)}>
+        Find Path
+      </button>
+
+      {error && <h2>{error}</h2>}
+
       <Map map2D={map2D} />
     </div>
   );
