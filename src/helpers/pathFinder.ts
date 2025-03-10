@@ -127,6 +127,10 @@ export const findPath = (map2D: MapArray): PathResult => {
       if (currentChar === '+' || /[A-Z]/.test(currentChar)) {
         if (previousDirection) {
           const newDirection = updateDirection(map2D, position, previousDirection);
+          if (newDirection === previousDirection && currentChar === '+') {
+            isError = true;
+            break;
+          }
           if (newDirection) {
             previousDirection = newDirection;
           } else {
