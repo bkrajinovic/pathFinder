@@ -10,8 +10,10 @@ type Directions = 'up' | 'down' | 'left' | 'right';
 type MapArray = string[][];
 
 export const findPath = (map2D: MapArray): PathResult => {
-  const { startingPosition, endingPosition, errorMessage } = getStartingAndEndingCharacterPosition(map2D);
-  if (errorMessage) return { path: [], collectedLetters: [], error: errorMessage };
+  const { startingPosition, endingPosition, error } = getStartingAndEndingCharacterPosition(map2D);
+  let isError = error === true ? 'Error' : false;
+
+  if (isError) return { path: [], collectedLetters: [], error: 'Error' };
 
   const position = { ...startingPosition };
   const path = [];
@@ -23,15 +25,25 @@ export const findPath = (map2D: MapArray): PathResult => {
   if (map2D[position.rowIndex][position.cellIndex] === '@') {
     path.push('@');
     previousDirection = determineStartingDirection(map2D, position);
-    if (!previousDirection) return { path: [], collectedLetters: [], error: 'Error: No valid starting direction' };
+    if (!previousDirection) return { path: [], collectedLetters: [], error: 'Error' };
   }
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    if (isOutOfBounds(map2D, position)) break;
-
     const posKey = `${position.rowIndex},${position.cellIndex}`;
     const currentChar = map2D[position.rowIndex]?.[position.cellIndex];
+
+    console.log(currentChar);
+
+    if (isOutOfBounds(map2D, position)) {
+      isError = true;
+      break;
+    }
+
+    if (currentChar === ' ') {
+      isError = true;
+      break;
+    }
 
     if (currentChar === 'x') {
       path.push(currentChar);
@@ -101,6 +113,11 @@ export const findPath = (map2D: MapArray): PathResult => {
       path.push(currentChar);
       visited.add(posKey);
 
+      if (currentChar === ' ') {
+        isError = true;
+        break;
+      }
+
       if (isEndingPosition(position, endingPosition)) {
         path.push('x');
         break;
@@ -133,7 +150,7 @@ export const findPath = (map2D: MapArray): PathResult => {
     path.push('x');
   }
 
-  return { path, collectedLetters, error: null };
+  return { path, collectedLetters, error: isError ? 'Error' : null };
 };
 
 const determineStartingDirection = (map2D: MapArray, position: Position): Directions | null => {

@@ -12,6 +12,7 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
   });
 
   it('should find the correct path for STRAIGHT_THROUGH_INTERSECTIONS', () => {
@@ -23,6 +24,7 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
   });
 
   it('should find the correct path for LETTERS_ON_TURNS', () => {
@@ -34,6 +36,7 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
   });
 
   it('should find the correct path for NO_DUPLICATE_LETTERS', () => {
@@ -45,6 +48,7 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
   });
 
   it('should find the correct path for COMPACT_SPACE', () => {
@@ -56,6 +60,7 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
   });
 
   it('should find the correct path for IGNORE_AFTER_END', () => {
@@ -67,5 +72,61 @@ describe('findPath', () => {
     const result = findPath(map2D);
     expect(result.path).toEqual(expectedPath);
     expect(result.collectedLetters).toEqual(expectedLetters);
+    expect(result.error).toBe(null);
+  });
+
+  // Tests for non-working maps
+  it('should return an error for MISSING_START', () => {
+    const map2D = handleParseMap(MAPS.MISSING_START);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for MISSING_END', () => {
+    const map2D = handleParseMap(MAPS.MISSING_END);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for MULTIPLE_STARTS_V1', () => {
+    const map2D = handleParseMap(MAPS.MULTIPLE_STARTS_V1);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for MULTIPLE_STARTS_V2', () => {
+    const map2D = handleParseMap(MAPS.MULTIPLE_STARTS_V2);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for MULTIPLE_STARTS_V3', () => {
+    const map2D = handleParseMap(MAPS.MULTIPLE_STARTS_V3);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for FORK_IN_PATH', () => {
+    const map2D = handleParseMap(MAPS.FORK_IN_PATH);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for BROKEN_PATH', () => {
+    const map2D = handleParseMap(MAPS.BROKEN_PATH);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for MULTIPLE_STARTING_PATHS', () => {
+    const map2D = handleParseMap(MAPS.MULTIPLE_STARTING_PATHS);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
+  });
+
+  it('should return an error for FAKE_TURN', () => {
+    const map2D = handleParseMap(MAPS.FAKE_TURN);
+    const result = findPath(map2D);
+    expect(result.error).toBe('Error');
   });
 });
