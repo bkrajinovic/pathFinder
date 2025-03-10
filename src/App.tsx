@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { handleParseMap } from 'src/helpers/mapParser';
+import { equalizeMapRows } from './helpers/mapModifiers';
 import { findPath } from 'src/helpers/findPath';
 import { MapArray } from './shared/types';
 import { MAPS } from './constants/maps';
@@ -18,7 +18,7 @@ const MapTraversal: React.FC = () => {
 
 
   useEffect(() => {
-    setMap2D(handleParseMap(MAPS[selectedMapKey]));
+    setMap2D(equalizeMapRows(MAPS[selectedMapKey]));
   }, [selectedMapKey]);
 
   return (

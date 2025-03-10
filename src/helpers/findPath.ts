@@ -5,12 +5,13 @@ import { MapArray, Directions } from "src/shared/types";
 
 interface PathResult {
   path: string[];
-  collectedLetters: string[];
   error: string | null;
+  collectedLetters: string[];
 }
 
 export const findPath = (map2D: MapArray): PathResult => {
   const { startingPosition, endingPosition, error } = getStartingAndEndingCharacterPosition(map2D);
+
   let isError = error === true ? 'Error' : false;
 
   if (isError) return { path: [], collectedLetters: [], error: 'Error' };

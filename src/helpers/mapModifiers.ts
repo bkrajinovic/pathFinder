@@ -1,6 +1,6 @@
 import { MapArray } from 'src/shared/types';
 
-export const handleParseMap = (map: MapArray): MapArray => {
+export const equalizeMapRows = (map: MapArray): MapArray => {
     // Find the length of the longest array
     const maxLength = map.reduce((max: number, row: string[]) => Math.max(max, row.length), 0);
 

@@ -1,5 +1,5 @@
-import { moveInDirection } from "./directions";
 import { MapArray, Position, Directions } from "./types";
+import { moveInDirection } from "./directions";
 
 export const isValidPathChar = (char: string): boolean => {
   return char === '-' || char === '|' || char === '+' || /[A-Z]/.test(char) || char === 'x';
