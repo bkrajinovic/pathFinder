@@ -1,13 +1,10 @@
 import { getStartingAndEndingCharacterPosition } from './positionGetters';
-
+import { MapArray, Directions, Position } from "src/shared/types";
 interface PathResult {
   path: string[];
   collectedLetters: string[];
   error: string | null;
 }
-type Position = { rowIndex: number; cellIndex: number };
-type Directions = 'up' | 'down' | 'left' | 'right';
-type MapArray = string[][];
 
 export const findPath = (map2D: MapArray): PathResult => {
   const { startingPosition, endingPosition, error } = getStartingAndEndingCharacterPosition(map2D);

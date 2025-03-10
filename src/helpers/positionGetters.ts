@@ -1,6 +1,4 @@
-type MapArray = string[][];
-type Position = { rowIndex: number; cellIndex: number };
-type Directions = 'up' | 'down' | 'left' | 'right';
+import { MapArray, Directions, Position } from "src/shared/types";
 
 export const getStartingAndEndingCharacterPosition = (map2D: MapArray) => {
     const startingPositions = [];

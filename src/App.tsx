@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { findPath } from 'src/helpers/pathFinder';
 import { handleParseMap } from 'src/helpers/mapParser';
+import { findPath } from 'src/helpers/pathFinder';
+import { MapArray } from './shared/types';
 import { MAPS } from './constants/maps';
 import Map from './Map';
 
 import './App.css';
 
 type MapKeys = keyof typeof MAPS;
-type MapArray = string[][];
 
 const MapTraversal: React.FC = () => {
   const [error] = useState<string | null>(null);

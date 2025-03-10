@@ -1,4 +1,4 @@
-type MapArray = string[][];
+import { MapArray } from 'src/shared/types';
 
 export const handleParseMap = (map: MapArray): MapArray => {
     // Find the length of the longest array
