@@ -1,5 +1,8 @@
-import { getStartingAndEndingCharacterPosition } from './positionGetters';
-import { MapArray, Directions, Position } from "src/shared/types";
+import {  determineStartingDirection, moveInDirection, updateDirection } from 'src/shared/directions';
+import { isOutOfBounds, isEndingPosition, isValidMove } from 'src/shared/validators';
+import { getStartingAndEndingCharacterPosition } from 'src/shared/positions';
+import { MapArray, Directions } from "src/shared/types";
+
 interface PathResult {
   path: string[];
   collectedLetters: string[];
@@ -152,75 +155,4 @@ export const findPath = (map2D: MapArray): PathResult => {
   }
 
   return { path, collectedLetters, error: isError ? 'Error' : null };
-};
-
-const determineStartingDirection = (map2D: MapArray, position: Position): Directions | null => {
-  if (position.cellIndex + 1 < map2D[0].length && isValidPathChar(map2D[position.rowIndex][position.cellIndex + 1])) {
-    position.cellIndex++;
-    return 'right';
-  }
-  if (position.cellIndex - 1 >= 0 && isValidPathChar(map2D[position.rowIndex][position.cellIndex - 1])) {
-    position.cellIndex--;
-    return 'left';
-  }
-  if (position.rowIndex + 1 < map2D.length && isValidPathChar(map2D[position.rowIndex + 1][position.cellIndex])) {
-    position.rowIndex++;
-    return 'down';
-  }
-  if (position.rowIndex - 1 >= 0 && isValidPathChar(map2D[position.rowIndex - 1][position.cellIndex])) {
-    position.rowIndex--;
-    return 'up';
-  }
-  return null;
-};
-
-const updateDirection = (map2D: MapArray, position: Position, previousDirection: Directions): Directions | null => {
-  const possibleDirections: Directions[] = [previousDirection, 'right', 'left', 'down', 'up'];
-  for (const direction of possibleDirections) {
-    if (direction !== oppositeDirection(previousDirection) && isValidMove(map2D, position, direction)) {
-      moveInDirection(position, direction);
-      return direction;
-    }
-  }
-  return null;
-};
-
-const isValidPathChar = (char: string): boolean => {
-  return char === '-' || char === '|' || char === '+' || /[A-Z]/.test(char) || char === 'x';
-};
-
-const isValidMove = (map2D: MapArray, position: Position, direction: Directions): boolean => {
-  const newPosition = { ...position };
-  moveInDirection(newPosition, direction);
-  return !isOutOfBounds(map2D, newPosition) && isValidPathChar(map2D[newPosition.rowIndex]?.[newPosition.cellIndex]);
-};
-
-const moveInDirection = (position: Position, direction: Directions) => {
-  if (direction === 'left') position.cellIndex--;
-  if (direction === 'right') position.cellIndex++;
-  if (direction === 'up') position.rowIndex--;
-  if (direction === 'down') position.rowIndex++;
-};
-
-const oppositeDirection = (direction: Directions): Directions => {
-  const opposites: { [key in Directions]: Directions } = {
-    up: 'down',
-    down: 'up',
-    left: 'right',
-    right: 'left',
-  };
-  return opposites[direction];
-};
-
-const isOutOfBounds = (map2D: MapArray, position: Position): boolean => {
-  return (
-    position.rowIndex < 0 ||
-    position.rowIndex >= map2D.length ||
-    position.cellIndex < 0 ||
-    position.cellIndex >= map2D[0].length
-  );
-};
-
-const isEndingPosition = (position: Position, endingPosition: Position): boolean => {
-  return position.rowIndex === endingPosition.rowIndex && position.cellIndex === endingPosition.cellIndex;
 };

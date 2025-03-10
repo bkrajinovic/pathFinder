@@ -1,4 +1,4 @@
-import { findPath } from 'src/helpers/pathFinder';
+import { findPath } from 'src/helpers/findPath';
 import { handleParseMap } from 'src/helpers/mapParser';
 import { MAPS } from 'src/constants/maps';
 

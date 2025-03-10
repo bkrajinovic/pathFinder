@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { handleParseMap } from 'src/helpers/mapParser';
-import { findPath } from 'src/helpers/pathFinder';
+import { findPath } from 'src/helpers/findPath';
 import { MapArray } from './shared/types';
 import { MAPS } from './constants/maps';
 import Map from './Map';
