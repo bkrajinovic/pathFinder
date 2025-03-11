@@ -1,0 +1,28 @@
+// _________________________ COLORS ________________________________
+$black: #000;
+$beige: #DCD7C9;
+$dark-green: #2C3930;
+$light-green: #3c4d40;
+$brown: #8b5e3c;
+$red: #C33241;
+
+// _________________________ FONTS ________________________________
+$font-size: 16px;
+$font-size-small: 14px;
+$font-size-large: 20px;
+$font-size-huge: 30px;
+$font-weight-normal: 500;
+$font-weight-bold: 700;
+$font-family: 'space-mono', monospace;
+
+// _________________________ TRANSITIONS ________________________________
+$default-transition: 0.2s all ease-in-out;
+
+
+// _________________________ SHADOWS ________________________________
+$box-shadow-light: 1px 1px 3px rgba(50,50,50,0.4);
+
+// _________________________ BREAKPOINTS ________________________________
+$breakpoint-sm: 600px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1400px;

@@ -1,5 +1,5 @@
 import { equalizeMapRows } from 'src/helpers/mapModifiers';
-import { MapArray } from 'src/shared/types';
+import { MapArray } from 'src/types';
 
 describe('equalizeMapRows', () => {
   it('should normalize a map with rows of different lengths', () => {

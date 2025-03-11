@@ -1,22 +1,22 @@
-import { MapArray, Position, Directions } from "./types";
+import { Directions, Position, MapArray } from "src/types";
 import { moveInDirection } from "./directions";
 
 export const isValidPathChar = (char: string): boolean => {
   return ['-', '|', '+', 'x'].includes(char) || /[A-Z]/.test(char);
 };
 
-export const isValidMove = (map2D: MapArray, position: Position, direction: Directions): boolean => {
+export const isValidMove = (equalizedMap: MapArray, position: Position, direction: Directions): boolean => {
   const newPosition = { ...position };
   moveInDirection(newPosition, direction);
-  return !isOutOfBounds(map2D, newPosition) && isValidPathChar(map2D[newPosition.rowIndex][newPosition.cellIndex]);
+  return !isOutOfBounds(equalizedMap, newPosition) && isValidPathChar(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]);
 };
 
-export const isOutOfBounds = (map2D: MapArray, position: Position): boolean => {
+export const isOutOfBounds = (equalizedMap: MapArray, position: Position): boolean => {
   return (
     position.rowIndex < 0 ||
-    position.rowIndex >= map2D.length ||
+    position.rowIndex >= equalizedMap.length ||
     position.cellIndex < 0 ||
-    position.cellIndex >= map2D[0].length
+    position.cellIndex >= equalizedMap[0].length
   );
 };
 

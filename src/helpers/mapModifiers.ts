@@ -1,4 +1,4 @@
-import { MapArray } from 'src/shared/types';
+import { MapArray } from 'src/types';
 
 export const equalizeMapRows = (map: MapArray): MapArray => {
     const maxLength = map.reduce((max: number, row: string[]) => Math.max(max, row.length), 0);

@@ -1,45 +1,58 @@
 import React, { useEffect, useState } from 'react';
 
+import { Button, MapPicker, MapResults, MapViewer } from 'src/components';
 import { equalizeMapRows } from './helpers/mapModifiers';
+import { MapArray, MapKeys } from 'src/types';
 import { findPath } from 'src/helpers/findPath';
-import { MapArray } from './shared/types';
 import { MAPS } from './constants/maps';
-import Map from './Map';
 
-import './App.css';
-
-type MapKeys = keyof typeof MAPS;
+import './App.scss';
 
 const MapTraversal: React.FC = () => {
-  const [error] = useState<string | null>(null);
-
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedMapKey, setSelectedMapKey] = useState<MapKeys>('BASIC_EXAMPLE');
-  const [map2D, setMap2D] = useState<MapArray>(MAPS.BASIC_EXAMPLE);
+  const [equalizedMap, setEqualizedMap] = useState<MapArray>(MAPS.BASIC_EXAMPLE);
+  const [mapResults, setMapResults] = useState<{ path: string[], collectedLetters: string[] }>({ path: [], collectedLetters: [] });
 
 
   useEffect(() => {
-    setMap2D(equalizeMapRows(MAPS[selectedMapKey]));
+    setEqualizedMap(equalizeMapRows(MAPS[selectedMapKey]));
   }, [selectedMapKey]);
 
+  const handleSolveMap = () => {
+    setIsLoading(true);
+    const { path, collectedLetters, error } = findPath(equalizedMap);
+
+    if(!mapResults.path.length) {
+      if (error) {
+        setIsError(true);
+      } else {
+        setMapResults({ path, collectedLetters });
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleMapChange = (key: MapKeys) => {
+    setIsError(false);
+    setSelectedMapKey(key);
+    setMapResults({ path: [], collectedLetters: [] });
+  };
+
   return (
-    <div className='App'>
+    <div className='page'>
       <h1>Map Traversal</h1>
 
-      <select onChange={(e) => setSelectedMapKey(e.target.value as MapKeys)} value={selectedMapKey}>
-        {Object.keys(MAPS).map(key => (
-          <option key={key} value={key}>
-            {key.replace(/_/g, ' ')}
-          </option>
-        ))}
-      </select>
+      <MapPicker selectedMapKey={selectedMapKey} handleMapChange={handleMapChange} />
+      <MapViewer equalizedMap={equalizedMap} />
 
-      <button onClick={() => findPath(map2D)}>
-        Find Path
-      </button>
+      <Button color='primary' onClick={handleSolveMap} size='large' tooltipText='Solve map'>
+        {isLoading ? 'Loading...' : 'Solve Map'}
+      </Button>
 
-      {error && <h2>{error}</h2>}
-
-      <Map map2D={map2D} />
+      <MapResults isError={isError} mapResults={mapResults}/>
     </div>
   );
 };

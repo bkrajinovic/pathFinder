@@ -1,0 +1,67 @@
+@use "src/styles/variables.scss" as stylesheet;
+@use "sass:color";
+
+.shared-button {
+  border: none;
+  border-radius: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.size-small {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 64px;
+  }
+
+  &.size-medium {
+    padding: 7px 14px;
+    font-size: 14px;
+    min-width: 88px;
+  }
+
+  &.size-large {
+    padding: 12px 24px;
+    font-size: 14px;
+    min-width: 128px;
+  }
+
+  &.color-primary {
+    background-color: stylesheet.$dark-green;
+    color: stylesheet.$beige;
+    box-shadow: 0 1px 3px
+      color.adjust(stylesheet.$dark-green, $lightness: -5%, $space: hsl);
+
+    &:hover {
+      background-color: stylesheet.$light-green;
+      box-shadow: 0 1px 3px
+        color.adjust(stylesheet.$dark-green, $lightness: -11%, $space: hsl);
+    }
+  }
+
+  &.color-secondary {
+    background-color: stylesheet.$beige;
+    color: stylesheet.$black;
+    font-weight: stylesheet.$font-weight-normal;
+    box-shadow: 0 1px 3px
+      color.adjust(stylesheet.$beige, $lightness: -5%, $space: hsl);
+
+    &:hover {
+      background-color: color.adjust(
+        stylesheet.$beige,
+        $lightness: -10%,
+        $space: hsl
+      );
+      box-shadow: 0 1px 3px
+        color.adjust(stylesheet.$beige, $lightness: -15%, $space: hsl);
+    }
+  }
+}

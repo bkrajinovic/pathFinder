@@ -1,0 +1,31 @@
+@use "src/styles/variables.scss" as stylesheet;
+
+.display-list {
+  display: inline-flex;
+  flex-direction: column;
+  row-gap: 12px;
+  align-items: center;
+
+  &__title {
+    margin: 0;
+    font-weight: stylesheet.$font-weight-bold;
+    font-size: stylesheet.$font-size-large;
+    color: stylesheet.$dark-green;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    justify-content: center;
+
+    &__item {
+      padding: 10px;
+      border-radius: 5px;
+      background-color: stylesheet.$dark-green;
+      font-size: stylesheet.$font-size-small;
+      box-shadow: stylesheet.$box-shadow-light;
+      color: stylesheet.$beige;
+    }
+  }
+}

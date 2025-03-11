@@ -45,7 +45,9 @@ export default tseslint.config(
       "react-hooks/exhaustive-deps": 'off',
       'react/react-in-jsx-scope': "off", // Not needed in React 18
       "react/self-closing-comp": "warn",
+      "no-constant-condition": "off",
       "no-trailing-spaces": "warn",
+      "react/prop-types": "off",
       "semi": ["warn", "always"],
       "react/jsx-key": "warn",
       "no-shadow": "warn",

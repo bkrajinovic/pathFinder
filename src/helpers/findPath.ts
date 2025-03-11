@@ -1,42 +1,38 @@
-import {  determineStartingDirection, moveInDirection, updateDirection } from 'src/shared/directions';
-import { isOutOfBounds, isEndingPosition, isValidMove } from 'src/shared/validators';
-import { getStartingAndEndingCharacterPosition } from 'src/shared/positions';
-import { MapArray, Directions } from "src/shared/types";
+import { determineStartingDirection, moveInDirection, updateDirection } from 'src/utils/directions';
+import { isOutOfBounds, isEndingPosition, isValidMove } from 'src/utils/validators';
+import { getStartingAndEndingCharacterPosition } from 'src/utils/positions';
+import { MapArray, Directions, Position } from "src/types";
 
 interface PathResult {
   path: string[];
-  error: string | null;
+  error: boolean;
   collectedLetters: string[];
 }
 
-export const findPath = (map2D: MapArray): PathResult => {
-  const { startingPosition, endingPosition, error } = getStartingAndEndingCharacterPosition(map2D);
+export const findPath = (equalizedMap: MapArray): PathResult => {
+  const { startingPosition, endingPosition, error } = getStartingAndEndingCharacterPosition(equalizedMap);
 
-  let isError = error === true ? 'Error' : false;
+  if (error) return { path: [], collectedLetters: [], error: true };
 
-  if (isError) return { path: [], collectedLetters: [], error: 'Error' };
-
-  const position = { ...startingPosition };
-  const path = [];
-  const collectedLetters = [];
+  let isError: boolean = false;
+  const path: string[] = [];
   const visited = new Set<string>();
+  const collectedLetters: string[] = [];
+  const position: Position = { ...startingPosition };
   let previousDirection: Directions | null = null;
 
-  // Determine the starting direction
-  if (map2D[position.rowIndex][position.cellIndex] === '@') {
+  if (equalizedMap[position.rowIndex][position.cellIndex] === '@') {
     path.push('@');
-    previousDirection = determineStartingDirection(map2D, position);
-    if (!previousDirection) return { path: [], collectedLetters: [], error: 'Error' };
+    previousDirection = determineStartingDirection(equalizedMap, position);
   }
 
-  // eslint-disable-next-line no-constant-condition
+  if (!previousDirection) return { path: [], collectedLetters: [], error: true };
+
   while (true) {
+    const currentChar = equalizedMap[position.rowIndex]?.[position.cellIndex];
     const posKey = `${position.rowIndex},${position.cellIndex}`;
-    const currentChar = map2D[position.rowIndex]?.[position.cellIndex];
 
-    console.log(currentChar);
-
-    if (isOutOfBounds(map2D, position)) {
+    if (isOutOfBounds(equalizedMap, position)) {
       isError = true;
       break;
     }
@@ -46,83 +42,21 @@ export const findPath = (map2D: MapArray): PathResult => {
       break;
     }
 
-    if (currentChar === 'x') {
-      path.push(currentChar);
+    if (isEndingPosition(position, endingPosition)) {
+      path.push('x');
       break;
     }
 
     if (visited.has(posKey)) {
-      path.push(currentChar);
-      const possibleDirections: Directions[] = [previousDirection, 'right', 'left', 'down', 'up'].filter((dir): dir is Directions => dir !== null);
-      let foundUnvisited = false;
-      for (const direction of possibleDirections) {
-        const newPosition = { ...position };
-        moveInDirection(newPosition, direction);
-        if (isOutOfBounds(map2D, newPosition)) continue;
-        const newPosKey = `${newPosition.rowIndex},${newPosition.cellIndex}`;
-
-        if (!visited.has(newPosKey) && isValidMove(map2D, position, direction)) {
-          if (/[A-Z]/.test(map2D[newPosition.rowIndex][newPosition.cellIndex])) {
-            collectedLetters.push(map2D[newPosition.rowIndex][newPosition.cellIndex]);
-          }
-          position.rowIndex = newPosition.rowIndex;
-          position.cellIndex = newPosition.cellIndex;
-          visited.add(newPosKey);
-          previousDirection = direction;
-          foundUnvisited = true;
-          break;
-        }
-      }
-      if (!foundUnvisited) {
-        let continueFromVisited = false;
-        for (const direction of possibleDirections) {
-          const newPosition = { ...position };
-          moveInDirection(newPosition, direction);
-          if (isOutOfBounds(map2D, newPosition)) continue;
-          const newPosKey = `${newPosition.rowIndex},${newPosition.cellIndex}`;
-
-          if (visited.has(newPosKey)) {
-            const innerPossibleDirections: Directions[] = ['right', 'left', 'down', 'up'];
-            for (const innerDirection of innerPossibleDirections) {
-              const innerNewPosition = { ...newPosition };
-              if (/[A-Z]/.test(map2D[newPosition.rowIndex][newPosition.cellIndex]) && !visited.has(`${newPosition.rowIndex},${newPosition.cellIndex}`)) {
-                collectedLetters.push(map2D[newPosition.rowIndex][newPosition.cellIndex]);
-              }
-              moveInDirection(innerNewPosition, innerDirection);
-              if (isOutOfBounds(map2D, innerNewPosition)) continue;
-              const innerNewPosKey = `${innerNewPosition.rowIndex},${innerNewPosition.cellIndex}`;
-
-              if (!visited.has(innerNewPosKey) && isValidMove(map2D, newPosition, innerDirection)) {
-                if (/[A-Z]/.test(map2D[newPosition.rowIndex][newPosition.cellIndex]) && !visited.has(`${newPosition.rowIndex},${newPosition.cellIndex}`)) {
-                  collectedLetters.push(map2D[newPosition.rowIndex][newPosition.cellIndex]);
-                }
-                path.push(map2D[newPosition.rowIndex][newPosition.cellIndex]);
-                position.rowIndex = innerNewPosition.rowIndex;
-                position.cellIndex = innerNewPosition.cellIndex;
-                visited.add(innerNewPosKey);
-                previousDirection = innerDirection;
-                continueFromVisited = true;
-                break;
-              }
-            }
-            if (continueFromVisited) break;
-          }
-        }
-        if (!continueFromVisited) break;
-      }
-    } else {
-      path.push(currentChar);
-      visited.add(posKey);
-
-      if (currentChar === ' ') {
+      const result = handleVisitedPosition(equalizedMap, position, visited, previousDirection, path, collectedLetters);
+      if (result.error) {
         isError = true;
         break;
       }
-
-      if (isEndingPosition(position, endingPosition)) {
-        path.push('x');
-        break;
-      }
+      previousDirection = result.previousDirection;
+    } else {
+      path.push(currentChar);
+      visited.add(posKey);
 
       if (/[A-Z]/.test(currentChar)) {
         collectedLetters.push(currentChar);
@@ -130,15 +64,15 @@ export const findPath = (map2D: MapArray): PathResult => {
 
       if (currentChar === '+' || /[A-Z]/.test(currentChar)) {
         if (previousDirection) {
-          const newDirection = updateDirection(map2D, position, previousDirection);
+          const newDirection = updateDirection(equalizedMap, position, previousDirection);
+
           if (newDirection === previousDirection && currentChar === '+') {
             isError = true;
             break;
           }
+
           if (newDirection) {
             previousDirection = newDirection;
-          } else {
-            break;
           }
         } else {
           break;
@@ -151,9 +85,92 @@ export const findPath = (map2D: MapArray): PathResult => {
     }
   }
 
-  if (!path.includes('x') && isEndingPosition(position, endingPosition)) {
-    path.push('x');
-  }
+  return { path, collectedLetters, error: isError };
+};
+interface HandleVisitedPositionResult {
+  previousDirection: Directions | null;
+  error: boolean;
+}
 
-  return { path, collectedLetters, error: isError ? 'Error' : null };
+const handleVisitedPosition = (
+  equalizedMap: MapArray,
+  position: Position,
+  visited: Set<string>,
+  previousDirection: Directions | null,
+  path: string[],
+  collectedLetters: string[]
+): HandleVisitedPositionResult => {
+  const possibleDirections: Directions[] = [previousDirection, 'right', 'left', 'down', 'up'].filter((dir): dir is Directions => dir !== null);
+  const currentChar = equalizedMap[position.rowIndex]?.[position.cellIndex];
+  let foundUnvisited = false;
+
+  path.push(currentChar);
+
+  for (const direction of possibleDirections) {
+    const newPosition = { ...position };
+
+    if (isOutOfBounds(equalizedMap, newPosition)) continue;
+
+    moveInDirection(newPosition, direction);
+
+    const newPosKey = `${newPosition.rowIndex},${newPosition.cellIndex}`;
+
+    if (!visited.has(newPosKey) && isValidMove(equalizedMap, position, direction)) {
+      if (/[A-Z]/.test(equalizedMap[newPosition.rowIndex][newPosition.cellIndex])) {
+        collectedLetters.push(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]);
+      }
+
+      position.rowIndex = newPosition.rowIndex;
+      position.cellIndex = newPosition.cellIndex;
+      visited.add(newPosKey);
+      previousDirection = direction;
+      foundUnvisited = true;
+      break;
+    }
+  }
+  if (!foundUnvisited) {
+    let continueFromVisited = false;
+    for (const direction of possibleDirections) {
+      const newPosition = { ...position };
+
+      moveInDirection(newPosition, direction);
+
+      if (isOutOfBounds(equalizedMap, newPosition)) continue;
+
+      const newPosKey = `${newPosition.rowIndex},${newPosition.cellIndex}`;
+
+      if (visited.has(newPosKey)) {
+        const innerPossibleDirections: Directions[] = ['right', 'left', 'down', 'up'];
+        for (const innerDirection of innerPossibleDirections) {
+          const innerNewPosition = { ...newPosition };
+          if (/[A-Z]/.test(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]) && !visited.has(`${newPosition.rowIndex},${newPosition.cellIndex}`)) {
+            collectedLetters.push(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]);
+          }
+
+          moveInDirection(innerNewPosition, innerDirection);
+
+          if (isOutOfBounds(equalizedMap, innerNewPosition)) continue;
+
+          const innerNewPosKey = `${innerNewPosition.rowIndex},${innerNewPosition.cellIndex}`;
+
+          if (!visited.has(innerNewPosKey) && isValidMove(equalizedMap, newPosition, innerDirection)) {
+            if (/[A-Z]/.test(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]) && !visited.has(`${newPosition.rowIndex},${newPosition.cellIndex}`)) {
+              collectedLetters.push(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]);
+            }
+
+            path.push(equalizedMap[newPosition.rowIndex][newPosition.cellIndex]);
+            position.rowIndex = innerNewPosition.rowIndex;
+            position.cellIndex = innerNewPosition.cellIndex;
+            visited.add(innerNewPosKey);
+            previousDirection = innerDirection;
+            continueFromVisited = true;
+            break;
+          }
+        }
+        if (continueFromVisited) break;
+      }
+    }
+    if (!continueFromVisited) return { previousDirection, error: true };
+  }
+  return { previousDirection, error: false };
 };
