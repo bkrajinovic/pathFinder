@@ -39,7 +39,8 @@ export const determineStartingDirection = (map2D: string[][], position: Position
 };
 
 export const updateDirection = (map2D: string[][], position: Position, previousDirection: Directions): Directions | null => {
-  const possibleDirections: Directions[] = [previousDirection, 'right', 'left', 'down', 'up'];
+  const possibleDirections: Directions[] = ['right', 'left', 'down', 'up'];
+
   for (const direction of possibleDirections) {
     if (direction !== oppositeDirection(previousDirection) && isValidMove(map2D, position, direction)) {
       moveInDirection(position, direction);

@@ -2,13 +2,13 @@ import { MapArray, Position, Directions } from "./types";
 import { moveInDirection } from "./directions";
 
 export const isValidPathChar = (char: string): boolean => {
-  return char === '-' || char === '|' || char === '+' || /[A-Z]/.test(char) || char === 'x';
+  return ['-', '|', '+', 'x'].includes(char) || /[A-Z]/.test(char);
 };
 
 export const isValidMove = (map2D: MapArray, position: Position, direction: Directions): boolean => {
   const newPosition = { ...position };
   moveInDirection(newPosition, direction);
-  return !isOutOfBounds(map2D, newPosition) && isValidPathChar(map2D[newPosition.rowIndex]?.[newPosition.cellIndex]);
+  return !isOutOfBounds(map2D, newPosition) && isValidPathChar(map2D[newPosition.rowIndex][newPosition.cellIndex]);
 };
 
 export const isOutOfBounds = (map2D: MapArray, position: Position): boolean => {
