@@ -11,7 +11,7 @@ const MapResults: React.FC<MapResultsProps> = ({ isError, mapResults }) => {
   const { path, collectedLetters } = mapResults;
 
   return (isError ?
-    <p className="error-message">{isError ? 'Ops! There is an error in path' : ''}</p> :
+    <p className="error-message" role='alert'>{isError ? 'Ops! There is an error in path' : ''}</p> :
     <React.Fragment>
       <DisplayList title="Path" items={path} />
       <DisplayList title="Collected Letters" items={collectedLetters} />

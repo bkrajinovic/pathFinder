@@ -1,5 +1,6 @@
 import React from "react";
 import { MAPS } from "src/constants/maps";
+import { Button } from "src/components";
 import { MapKeys } from "src/types";
 import "./styles.scss";
 
@@ -10,17 +11,20 @@ interface MapPickerProps {
 
 const MapPicker: React.FC<MapPickerProps> = ({ selectedMapKey, handleMapChange }) => {
   return (
-    <div className="map-picker">
+    <ul className="map-picker">
       {Object.keys(MAPS).map((key) => (
-        <div
-          key={key}
-          className={`map-picker__item${selectedMapKey === key ? "--selected" : ""}`}
-          onClick={() => handleMapChange(key as MapKeys)}
-        >
-          <p className="map-picker__item__title">{key.replace(/_/g, " ")}</p>
-        </div>
+        <li key={key}>
+          <Button
+            color={selectedMapKey === key ? "secondary" : "primary"}
+            onClick={() => handleMapChange(key as MapKeys)}
+            aria-pressed={selectedMapKey === key}
+            tooltipText={`Select ${key.replace(/_/g, " ")} map`}
+            >
+            {key.replace(/_/g, " ")}
+            </Button>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

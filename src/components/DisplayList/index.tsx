@@ -9,14 +9,12 @@ interface DisplayListProps {
 const DisplayList: React.FC<DisplayListProps> = ({ title, items }) => {
   return (
     <div className="display-list">
-      <h2 className="display-list__title">{items.length ? title : ""}</h2>
-      <div className="display-list__items">
-        {items?.map((item, index) => (
-          <div key={index} className="display-list__items__item">
-            {item}
-          </div>
+      {items.length > 0 && <h2 className="display-list__title">{title}</h2>}
+      <ul className="display-list__items">
+        {items.map((item) => (
+          <li key={item} className="display-list__items__item">{item}</li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

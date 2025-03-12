@@ -42,14 +42,13 @@
   }
 
   &.color-secondary {
-    box-shadow: 0 1px 3px color.adjust(stylesheet.$beige, $lightness: -5%, $space: hsl);
-    font-weight: stylesheet.$font-weight-normal;
-    background-color: stylesheet.$beige;
-    color: stylesheet.$black;
+    box-shadow: 0 1px 3px color.adjust(stylesheet.$brown, $lightness: -5%, $space: hsl);
+    background-color: stylesheet.$brown;
+    color: stylesheet.$beige;
 
     &:hover {
-      box-shadow: 0 1px 3px color.adjust(stylesheet.$beige, $lightness: -15%, $space: hsl);
-      background-color: color.adjust( stylesheet.$beige, $lightness: -10%, $space: hsl);
+      box-shadow: 0 1px 3px color.adjust(stylesheet.$brown, $lightness: -15%, $space: hsl);
+      background-color: color.adjust( stylesheet.$brown, $lightness: -10%, $space: hsl);
     }
   }
 }

@@ -20,6 +20,7 @@ const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
       className={`shared-button color-${color} size-${size}`}
       onClick={onClick}
       title={tooltipText}
+      aria-label={tooltipText || undefined}
     >
       {children}
     </button>

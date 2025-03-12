@@ -20,7 +20,7 @@ describe('MapPicker component', () => {
     const selectedMapKey: string = Object.keys(MAPS)[0];
     render(<MapPicker selectedMapKey={selectedMapKey} handleMapChange={() => {}} />);
     const selectedMapItem = screen.getByText(selectedMapKey.replace(/_/g, ' '));
-    expect(selectedMapItem.parentElement).toHaveClass('map-picker__item--selected');
+    expect(selectedMapItem).toHaveClass('color-secondary');
   });
 
   it('calls handleMapChange when a map is clicked', () => {

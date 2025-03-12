@@ -8,9 +8,9 @@ interface MapViewerProps {
 const MapViewer: React.FC<MapViewerProps> = ({ equalizedMap }) => {
   return (
     <div
-    data-testid="map-viewer"
-    className="map-viewer"
-    style={{ gridTemplateColumns: `repeat(${equalizedMap[0]?.length || 0}, var(--cell-size))` }}
+      style={{ gridTemplateColumns: `repeat(${equalizedMap[0]?.length || 0}, var(--cell-size))` }}
+      data-testid="map-viewer"
+      className="map-viewer"
     >
       {equalizedMap.map((row, rowIndex) =>
         row.map((cell, cellIndex) => (

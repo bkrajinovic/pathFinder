@@ -14,7 +14,10 @@
   }
 
   &__items {
+    color: stylesheet.$dark-green;
     justify-content: center;
+    list-style-type: none;
+    padding: 0;
     flex-wrap: wrap;
     display: flex;
     gap: 1px;
