@@ -12,8 +12,8 @@ interface MapPickerProps {
 const MapPicker: React.FC<MapPickerProps> = ({ selectedMapKey, handleMapChange }) => {
   return (
     <ul className="map-picker">
-      {Object.keys(MAPS).map((key) => (
-        <li key={key}>
+      {Object.keys(MAPS).map((key, index) => (
+        <li key={`${key}-${index}`}>
           <Button
             color={selectedMapKey === key ? "secondary" : "primary"}
             onClick={() => handleMapChange(key as MapKeys)}
