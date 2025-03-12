@@ -1,6 +1,14 @@
+@use "src/styles/variables.scss" as stylesheet;
+
 .page {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
     align-items: center;
+
+    h1 {
+        font-size: stylesheet.$font-size-huge;
+        font-weight: stylesheet.$font-weight-bold;
+        color: stylesheet.$dark-green;
+      }
 }

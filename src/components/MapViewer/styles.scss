@@ -1,17 +1,29 @@
 @use "src/styles/variables.scss" as stylesheet;
 
+:root {
+  --cell-size: 30px;
+  --font-size: 18px;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --cell-size: 20px;
+    --font-size: 14px;
+  }
+}
+
 .map-viewer {
+  grid-template-columns: repeat(auto-fill, minmax(var(--cell-size), 1fr));
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
 
   &__cell {
-    font-size: 18px;
-    width: 30px;
-    height: 30px;
     border: 1px solid stylesheet.$black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: stylesheet.$brown;
+    font-size: var(--font-size);
+    height: var(--cell-size);
+    width: var(--cell-size);
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
 }

@@ -1,37 +1,37 @@
 @use "src/styles/variables.scss" as stylesheet;
 
 .map-picker {
+  justify-content: center;
+  flex-wrap: wrap;
   display: flex;
   width: 70%;
   gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
 
   &__item {
-    padding: 15px 8px;
-    border-radius: 5px;
-    cursor: pointer;
+    transition: stylesheet.$default-transition;
     background-color: stylesheet.$dark-green;
     box-shadow: stylesheet.$box-shadow-light;
-    transition: stylesheet.$default-transition;
+    border-radius: 5px;
+    padding: 15px 8px;
+    cursor: pointer;
 
     &:hover {
       background-color: stylesheet.$light-green;
     }
 
     &--selected {
-      display: flex;
-      padding: 15px 8px;
-      border-radius: 5px;
-      cursor: pointer;
       box-shadow: stylesheet.$box-shadow-light;
       background-color: stylesheet.$brown;
+      border-radius: 5px;
+      padding: 15px 8px;
+      cursor: pointer;
+      display: flex;
     }
 
     &__title {
-      margin: 0;
       font-weight: stylesheet.$font-weight-bold;
       font-size: stylesheet.$font-size-small;
+      margin: 0;
     }
   }
 }

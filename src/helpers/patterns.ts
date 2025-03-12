@@ -1,0 +1,1 @@
+export const UPPERCASE_LETTERS = /[A-Z]/;

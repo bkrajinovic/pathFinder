@@ -1,0 +1,16 @@
+@use "src/styles/variables.scss" as stylesheet;
+
+.instructions {
+    color: stylesheet.$dark-green;
+    justify-content: center;
+    line-height: 1.5;
+    max-width: 800px;
+    flex-wrap: wrap;
+    display: flex;
+    width: 50%;
+    
+    @media (max-width: stylesheet.$breakpoint-md) {
+        width: 100%;
+    }
+
+}

@@ -9,8 +9,8 @@ type ButtonProps = {
 };
 
 const Button: React.FC<PropsWithChildren<ButtonProps>> = ({
-  color = "primary",
   size = "medium",
+  color = "primary",
   onClick,
   tooltipText = "",
   children,

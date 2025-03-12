@@ -39,7 +39,7 @@ export const determineStartingDirection = (equalizedMap: string[][], position: P
 };
 
 export const updateDirection = (equalizedMap: string[][], position: Position, previousDirection: Directions): Directions | null => {
-  const possibleDirections: Directions[] = ['right', 'left', 'down', 'up'];
+  const possibleDirections: Directions[] = [previousDirection, 'right', 'left', 'down', 'up'];
 
   for (const direction of possibleDirections) {
     if (direction !== oppositeDirection(previousDirection) && isValidMove(equalizedMap, position, direction)) {

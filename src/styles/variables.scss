@@ -7,8 +7,8 @@ $brown: #8b5e3c;
 $red: #C33241;
 
 // _________________________ FONTS ________________________________
-$font-size: 16px;
-$font-size-small: 14px;
+$font-size-small: 12px;
+$font-size-medium: 14px;
 $font-size-large: 20px;
 $font-size-huge: 30px;
 $font-weight-normal: 500;
@@ -17,7 +17,6 @@ $font-family: 'space-mono', monospace;
 
 // _________________________ TRANSITIONS ________________________________
 $default-transition: 0.2s all ease-in-out;
-
 
 // _________________________ SHADOWS ________________________________
 $box-shadow-light: 1px 1px 3px rgba(50,50,50,0.4);

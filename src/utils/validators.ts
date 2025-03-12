@@ -1,8 +1,10 @@
 import { Directions, Position, MapArray } from "src/types";
+import { UPPERCASE_LETTERS } from 'src/helpers/patterns';
 import { moveInDirection } from "./directions";
 
+
 export const isValidPathChar = (char: string): boolean => {
-  return ['-', '|', '+', 'x'].includes(char) || /[A-Z]/.test(char);
+  return ['-', '|', '+', 'x'].includes(char) || UPPERCASE_LETTERS.test(char);
 };
 
 export const isValidMove = (equalizedMap: MapArray, position: Position, direction: Directions): boolean => {

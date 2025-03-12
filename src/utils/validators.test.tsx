@@ -1,5 +1,5 @@
-import { Directions, Position, MapArray } from 'src/types';
 import { isValidPathChar, isValidMove, isOutOfBounds, isEndingPosition } from './validators';
+import { Directions, Position, MapArray } from 'src/types';
 
 describe('validators', () => {
   describe('isValidPathChar', () => {

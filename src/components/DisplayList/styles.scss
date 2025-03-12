@@ -1,31 +1,31 @@
 @use "src/styles/variables.scss" as stylesheet;
 
 .display-list {
-  display: inline-flex;
   flex-direction: column;
-  row-gap: 12px;
+  display: inline-flex;
   align-items: center;
+  row-gap: 12px;
 
   &__title {
-    margin: 0;
     font-weight: stylesheet.$font-weight-bold;
     font-size: stylesheet.$font-size-large;
     color: stylesheet.$dark-green;
+    margin: 0;
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1px;
     justify-content: center;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1px;
 
     &__item {
-      padding: 10px;
-      border-radius: 5px;
       background-color: stylesheet.$dark-green;
-      font-size: stylesheet.$font-size-small;
       box-shadow: stylesheet.$box-shadow-light;
+      font-size: stylesheet.$font-size-small;
       color: stylesheet.$beige;
+      border-radius: 5px;
+      padding: 10px;
     }
   }
 }

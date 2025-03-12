@@ -2,66 +2,54 @@
 @use "sass:color";
 
 .shared-button {
-  border: none;
-  border-radius: 2px;
-  font-weight: 700;
+  font-weight: stylesheet.$font-weight-bold;
   text-transform: uppercase;
-  cursor: pointer;
+  transition: all 0.3s ease;
+  justify-content: center;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-
-  &:focus {
-    outline: none;
-  }
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
 
   &.size-small {
-    padding: 4px 8px;
-    font-size: 12px;
+    font-size: stylesheet.$font-size-small;
+    padding: 8px 4px;
     min-width: 64px;
   }
 
   &.size-medium {
-    padding: 7px 14px;
-    font-size: 14px;
+    font-size: stylesheet.$font-size-small;
+    padding: 15px 8px;
     min-width: 88px;
   }
 
   &.size-large {
-    padding: 12px 24px;
-    font-size: 14px;
+    font-size: stylesheet.$font-size-medium;
+    padding: 24px 12px;
     min-width: 128px;
   }
 
   &.color-primary {
+    box-shadow: 0 1px 3px color.adjust(stylesheet.$dark-green, $lightness: -5%, $space: hsl);
     background-color: stylesheet.$dark-green;
     color: stylesheet.$beige;
-    box-shadow: 0 1px 3px
-      color.adjust(stylesheet.$dark-green, $lightness: -5%, $space: hsl);
 
     &:hover {
+      box-shadow: 0 1px 3px color.adjust(stylesheet.$dark-green, $lightness: -11%, $space: hsl);
       background-color: stylesheet.$light-green;
-      box-shadow: 0 1px 3px
-        color.adjust(stylesheet.$dark-green, $lightness: -11%, $space: hsl);
     }
   }
 
   &.color-secondary {
+    box-shadow: 0 1px 3px color.adjust(stylesheet.$beige, $lightness: -5%, $space: hsl);
+    font-weight: stylesheet.$font-weight-normal;
     background-color: stylesheet.$beige;
     color: stylesheet.$black;
-    font-weight: stylesheet.$font-weight-normal;
-    box-shadow: 0 1px 3px
-      color.adjust(stylesheet.$beige, $lightness: -5%, $space: hsl);
 
     &:hover {
-      background-color: color.adjust(
-        stylesheet.$beige,
-        $lightness: -10%,
-        $space: hsl
-      );
-      box-shadow: 0 1px 3px
-        color.adjust(stylesheet.$beige, $lightness: -15%, $space: hsl);
+      box-shadow: 0 1px 3px color.adjust(stylesheet.$beige, $lightness: -15%, $space: hsl);
+      background-color: color.adjust( stylesheet.$beige, $lightness: -10%, $space: hsl);
     }
   }
 }
