@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { Button, MapPicker, MapResults, MapViewer, Instructions } from "src/components";
+import { MapArray, MapKeys, FindPathResults } from "src/types";
 import { equalizeMapRows } from "./helpers/mapModifiers";
 import { findPath } from "src/helpers/findPath";
-import { MapArray, MapKeys } from "src/types";
 import { MAPS } from "./constants/maps";
 import "./App.scss";
 
 const MapTraversal: React.FC = () => {
-  const [mapResults, setMapResults] = useState<{ path: string[]; collectedLetters: string[] }>({ path: [], collectedLetters: [] });
+  const [mapResults, setMapResults] = useState<FindPathResults>({ path: [], collectedLetters: [] });
   const [equalizedMap, setEqualizedMap] = useState<MapArray>(MAPS.BASIC_EXAMPLE);
   const [selectedMapKey, setSelectedMapKey] = useState<MapKeys>("BASIC_EXAMPLE");
   const [toggleInstructions, setToggleInstructions] = useState<boolean>(false);
@@ -23,12 +23,10 @@ const MapTraversal: React.FC = () => {
     setIsLoading(true);
     const { path, collectedLetters, error } = findPath(equalizedMap);
 
-    if (!mapResults.path.length) {
-      if (error) {
-        setIsError(true);
-      } else {
-        setMapResults({ path, collectedLetters });
-      }
+    if (error) {
+      setIsError(true);
+    } else {
+      setMapResults({ path, collectedLetters });
     }
 
     setIsLoading(false);

@@ -8,6 +8,8 @@ export type MapKeys = keyof typeof MAPS;
 
 export type MapArray = string[][];
 
+export type FindPathResults = { path: string[]; collectedLetters: string[] };
+
 export interface HandlePositionResults {
     previousDirection: Directions | null;
     error: boolean;

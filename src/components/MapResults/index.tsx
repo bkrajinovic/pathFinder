@@ -1,10 +1,11 @@
 import React from "react";
 import { DisplayList } from "src/components";
+import { FindPathResults } from "src/types";
 import './styles.scss';
 
 interface MapResultsProps {
   isError: boolean;
-  mapResults: { path: string[]; collectedLetters: string[] };
+  mapResults: FindPathResults ;
 }
 
 const MapResults: React.FC<MapResultsProps> = ({ isError, mapResults }) => {
